@@ -1,8 +1,8 @@
 # Surge / Quantumult X modules
 
-## 黄豆短剧 (hdmgdj)
+## hdmgdj
 
-For the 黄豆短剧 (hdmgdj 系) app. Both clients share one script, `scripts/hdmgdj.js`.
+For the hdmgdj app. Both clients share one script, `scripts/hdmgdj.js`.
 
 | Client | File |
 | --- | --- |
