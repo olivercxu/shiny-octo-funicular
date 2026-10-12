@@ -1,0 +1,14 @@
+# 黄豆短剧 (hdmgdj) - Quantumult X
+# 去广告/启动页、会员与金币显示、剧集列表去付费标记。
+# 付费集正片由服务端闸门控制，无法客户端解锁，只能降级为公开试看片。
+# Quantumult X 没有模块参数：全部使用脚本默认值（previewFallback/stripAds/fakeVip=true，debug=false）。
+# 需要改默认值时，编辑 scripts/hdmgdj.js 里的 CFG（argVal 的第二个参数）。
+
+[rewrite_local]
+# 请求阶段：仅 drama/play 需要，缓存请求体以便响应阶段还原 drama_id / seq
+^https?:\/\/(?:[a-z0-9-]+\.)*(?:pbahpylc\.cc|zxpxzvza\.cc|cbzegnsi\.cc|svlyibwt\.cc|hddj01\.com|hddj02\.com|hddj03\.com|bhanpslw\.top|ftvshtpa\.top|qlczebty\.top|mocqhwfk\.top|uwfjkoxh\.cc|hddj08\.com|hddj09\.com|hddj22\.com|nsokaymn\.cc|iwgsqufx\.cc|nbsito\.top|tideember\.cc|momodrift\.top|zuzuspot\.top|zuzucast\.top|glowcanvas\.cc|eyeonneb\.cc|larksummit\.icu|niniharbor\.top|kucvcxrv\.cc|onyxripple\.cc|ferncider\.cc|larkgarden\.top|vivifable\.top|sxqirtho\.top|qicuknlj\.top|hvthtcpa\.top|hdmgdj\.com|seiopcc\.icu|vhuoksd\.wiki|nptmguft\.cc|lyfxoxpf\.cc|exmuiawd\.cc|svkexyoz\.cc|halobloom\.cc|mintgate\.top)\/api\/drama\/play url script-request-body https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/scripts/hdmgdj.js
+# 响应阶段：解密 → 改写 → 重新加密
+^https?:\/\/(?:[a-z0-9-]+\.)*(?:pbahpylc\.cc|zxpxzvza\.cc|cbzegnsi\.cc|svlyibwt\.cc|hddj01\.com|hddj02\.com|hddj03\.com|bhanpslw\.top|ftvshtpa\.top|qlczebty\.top|mocqhwfk\.top|uwfjkoxh\.cc|hddj08\.com|hddj09\.com|hddj22\.com|nsokaymn\.cc|iwgsqufx\.cc|nbsito\.top|tideember\.cc|momodrift\.top|zuzuspot\.top|zuzucast\.top|glowcanvas\.cc|eyeonneb\.cc|larksummit\.icu|niniharbor\.top|kucvcxrv\.cc|onyxripple\.cc|ferncider\.cc|larkgarden\.top|vivifable\.top|sxqirtho\.top|qicuknlj\.top|hvthtcpa\.top|hdmgdj\.com|seiopcc\.icu|vhuoksd\.wiki|nptmguft\.cc|lyfxoxpf\.cc|exmuiawd\.cc|svkexyoz\.cc|halobloom\.cc|mintgate\.top)\/api\/(?:drama|movie|user|up|pay|mine|ad|lottery|task|product|redeem|comment|system|home|search)\/.+ url script-response-body https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/scripts/hdmgdj.js
+
+[mitm]
+hostname = pbahpylc.cc, zxpxzvza.cc, cbzegnsi.cc, svlyibwt.cc, hddj01.com, hddj02.com, hddj03.com, bhanpslw.top, ftvshtpa.top, qlczebty.top, mocqhwfk.top, uwfjkoxh.cc, hddj08.com, hddj09.com, hddj22.com, nsokaymn.cc, iwgsqufx.cc, nbsito.top, tideember.cc, momodrift.top, zuzuspot.top, zuzucast.top, glowcanvas.cc, eyeonneb.cc, larksummit.icu, niniharbor.top, kucvcxrv.cc, onyxripple.cc, ferncider.cc, larkgarden.top, vivifable.top, sxqirtho.top, qicuknlj.top, hvthtcpa.top, hdmgdj.com, seiopcc.icu, vhuoksd.wiki, nptmguft.cc, lyfxoxpf.cc, exmuiawd.cc, svkexyoz.cc, halobloom.cc, mintgate.top
