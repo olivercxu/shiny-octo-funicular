@@ -1,8 +1,25 @@
-# Surge modules
+# Surge / Quantumult X modules
 
-## 黄豆短剧 (hdmgdj)
+## hdmgdj
 
-`modules/hdmgdj.sgmodule` — Surge module for the 黄豆短剧 (hdmgdj 系) app. Script: `scripts/hdmgdj.js`.
+For the hdmgdj app. Both clients share one script, `scripts/hdmgdj.js`.
+
+| Client | File |
+| --- | --- |
+| Surge | `modules/hdmgdj.sgmodule` |
+| Quantumult X | `quantumultx/hdmgdj.snippet` |
+
+### Install in Quantumult X
+
+Quantumult X has no `.sgmodule` support; it uses a rewrite resource. Settings → Rewrite → (top right) Rewrite Resource → add this URL as a remote resource, then enable it:
+
+```
+https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/quantumultx/hdmgdj.snippet
+```
+
+Enable MITM in Quantumult X, install and trust its certificate, and make sure Rewrite is on. Quantumult X has no module arguments, so the script defaults apply (`previewFallback`, `stripAds`, `fakeVip` on, `debug` off). To change them, edit the `CFG` block in `scripts/hdmgdj.js`.
+
+The 43 domains are listed in both files (the rule regexes and the MITM hostnames). If you add a domain, update `modules/hdmgdj.sgmodule` and `quantumultx/hdmgdj.snippet` together.
 
 ### Install in Surge
 
