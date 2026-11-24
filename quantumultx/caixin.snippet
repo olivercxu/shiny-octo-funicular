@@ -1,0 +1,9 @@
+#!name=财新VIP
+#!desc=财新 App 8.6+ 文章/音频 + 财新周刊（iOS & iPadOS）@olivercxu
+#!openUrl=https://github.com/olivercxu/shiny-octo-funicular
+
+^https?:\/\/gateway\.caixin\.com\/api\/app\-api\/auth\/(validate|validateAudioAuth) url script-request-header https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/scripts/caixin.js
+
+^https?:\/\/ipadcms\.caixin\.com\/(api|tmp|power)\/(articles?|myfree(v\d+)?) url script-response-body https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/scripts/caixin-weekly.js
+
+hostname = gateway.caixin.com, ipadcms.caixin.com

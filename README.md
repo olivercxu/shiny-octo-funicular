@@ -1,59 +1,44 @@
-# Surge / Quantumult X modules
+# 财新 VIP · Quantumult X
 
-## hdmgdj
+财新 App（8.6+）付费文章 / 音频鉴权，以及**财新周刊**独立 App 的付费阅读，适用于 iOS 与 iPadOS。
 
-For the hdmgdj app. Both clients share one script, `scripts/hdmgdj.js`.
-
-| Client | File |
+| 文件 | 作用 |
 | --- | --- |
-| Surge | `modules/hdmgdj.sgmodule` |
-| Quantumult X | `quantumultx/hdmgdj.snippet` |
+| `quantumultx/caixin.snippet` | QX 远程重写资源（规则 + MITM 主机名） |
+| `scripts/caixin.js` | 主 App：`gateway.caixin.com` 鉴权请求改写 |
+| `scripts/caixin-weekly.js` | 周刊 App：`ipadcms.caixin.com` 响应改写 |
 
-### Install in Quantumult X
+### 在 Quantumult X 中安装
 
-Quantumult X has no `.sgmodule` support; it uses a rewrite resource. Settings → Rewrite → (top right) Rewrite Resource → add this URL as a remote resource, then enable it:
+1. 开启 MITM，安装并信任 QX 证书。
+2. **设置 → 重写 → 规则资源 → +**  
+   资源路径：
 
+   ```
+   https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/quantumultx/caixin.snippet
+   ```
+
+3. 打开 **解析**，保存后右滑 **更新**（无 404 即成功）。
+4. 确认重写总开关已开，`hostname` 中出现 `gateway.caixin.com`、`ipadcms.caixin.com`。
+5. 先登录财新账号，再打开付费内容测试；周刊请用「财新周刊」App 单独测试。
+
+### 替换失效的墨鱼链接
+
+若配置里仍有：
+
+```ini
+https://ddgksf2013.top/rewrite/CaiXinVip.conf, tag=财新VIP, ...
 ```
-https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/quantumultx/hdmgdj.snippet
+
+该地址已失效，请删除并改用上方 `caixin.snippet`，例如：
+
+```ini
+https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/quantumultx/caixin.snippet, tag=财新VIP@Oliver, update-interval=86400, opt-parser=true, enabled=true
 ```
 
-Enable MITM in Quantumult X, install and trust its certificate, and make sure Rewrite is on. Quantumult X has no module arguments, so the script defaults apply (`previewFallback`, `stripAds`, `fakeVip` on, `debug` off). To change them, edit the `CFG` block in `scripts/hdmgdj.js`.
+同时可删除已指向本仓库旧 `hdmgdj.snippet` 的订阅行（本仓库已不再包含黄豆短剧规则）。
 
-The 43 domains are listed in both files (the rule regexes and the MITM hostnames). If you add a domain, update `modules/hdmgdj.sgmodule` and `quantumultx/hdmgdj.snippet` together.
+### 说明
 
-### Install in Surge
-
-Surge → Modules → Install New Module from URL:
-
-```
-https://raw.githubusercontent.com/olivercxu/shiny-octo-funicular/main/modules/hdmgdj.sgmodule
-```
-
-or open this link on the device: `surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Folivercxu%2Fshiny-octo-funicular%2Fmain%2Fmodules%2Fhdmgdj.sgmodule`
-
-Surge must have **MITM enabled** and its CA certificate installed and trusted. The module appends the app's 43 domains to the MITM hostname list.
-
-### Arguments
-
-Editable in Surge's module settings.
-
-| Argument | Default | Meaning |
-| --- | --- | --- |
-| `previewFallback` | `true` | Paid episodes play the public preview clip instead of the paywall. `false` keeps the original paywall dialog. |
-| `previewFile` | `preview-r10.mp4` | Preview file name (`preview-r10.mp4` ≈ 10.5 s, `preview.mp4` ≈ 6 s). |
-| `stripAds` | `true` | Remove splash screen, popups and ad slots. |
-| `fakeVip` | `true` | Show VIP status and balance on the account pages (display only). |
-| `debug` | `false` | Log to the Surge script log. |
-
-### Limits
-
-Paid episodes are gated on the server (403 on the m3u8, signed CDN segments), so the script cannot unlock full paid episodes. It only changes what the client displays and falls back to the public preview clip.
-
-### Changes from the original script
-
-Based on `7452323/QuantumultX` `lzlukvca.js` v3.1.0 (the script is vendored here so the module does not depend on a third-party URL).
-
-- **Script:** `requestId` / `deviceType` are now taken from the current request's headers, then the response echo, then the cache. The original always overrode them with the cache from the last `drama/play` request, so responses to other endpoints were decrypted with a stale key and silently passed through.
-- **Module:** the request rule now matches only `/api/drama/play`, the one request the script needs. It also covers the same 43 domains as the response rule (the original request rule lacked 9).
-- **Module:** `argument` now uses `&` separators (a comma would be parsed by Surge as the next rule option), and the Chinese `{{{…}}}` placeholders became declared `#!arguments`.
-- **Module:** `max-size=-1` became `max-size=0` (no limit).
+- 主 App 解锁依赖共享鉴权参数；服务端策略变更可能导致失效，需更新 `scripts/caixin.js` 中的版本号或参数。
+- 脚本仅供学习交流，请支持正版订阅。
